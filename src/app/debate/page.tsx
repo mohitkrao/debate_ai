@@ -118,7 +118,7 @@ export default function DebatePage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen bg-cover bg-center" style={{backgroundImage: `url('https://picsum.photos/1920/1080')`}}>
       <Card className="m-4 flex-grow">
         <CardHeader>
           <CardTitle>Debate: {topic}</CardTitle>
@@ -147,7 +147,7 @@ export default function DebatePage() {
                 key={index}
                 className={`mb-2 p-2 rounded-md ${
                   message.isUser ? 'bg-secondary text-secondary-foreground self-end' : 'bg-muted text-muted-foreground self-start'
-                }`}
+                } break-words`}
               >
                 {message.text}
               </div>

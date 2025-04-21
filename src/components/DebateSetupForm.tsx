@@ -29,11 +29,11 @@ const formSchema = z.object({
   stance: z.enum(['for', 'against'], {
     required_error: 'Please select a stance.',
   }),
-  expertiseLevel: z.string().min(2, {
-    message: 'Expertise level must be at least 2 characters.',
+  expertiseLevel: z.enum(['school', 'undergraduate', 'graduate', 'phd'], {
+    required_error: 'Please select an expertise level.',
   }),
-  difficulty: z.string().min(2, {
-    message: 'Difficulty must be at least 2 characters.',
+  difficulty: z.enum(['easy', 'medium', 'hard'], {
+    required_error: 'Please select a difficulty.',
   }),
   userInput: z.string().optional(),
 });
@@ -48,8 +48,8 @@ export function DebateSetupForm() {
     defaultValues: {
       topic: '',
       stance: 'for',
-      expertiseLevel: '',
-      difficulty: '',
+      expertiseLevel: 'school',
+      difficulty: 'easy',
     },
   });
 
@@ -115,9 +115,19 @@ export function DebateSetupForm() {
               render={({field}) => (
                 <FormItem>
                   <FormLabel>Expertise Level</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Expertise Level" {...field} />
-                  </FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select expertise level" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="school">School</SelectItem>
+                      <SelectItem value="undergraduate">Undergraduate</SelectItem>
+                      <SelectItem value="graduate">Graduate</SelectItem>
+                      <SelectItem value="phd">PhD</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -129,9 +139,18 @@ export function DebateSetupForm() {
               render={({field}) => (
                 <FormItem>
                   <FormLabel>Difficulty</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Difficulty" {...field} />
-                  </FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select difficulty" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="easy">Easy</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="hard">Hard</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
