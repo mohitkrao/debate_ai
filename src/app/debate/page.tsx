@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import DebateClient from './DebateClient';
+import DebateClient from '@/hooks/DebateClient';
 
 export default function DebatePage() {
   return (

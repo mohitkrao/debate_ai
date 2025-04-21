@@ -16,11 +16,11 @@ import {
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
-import {Textarea} from '@/components/ui/textarea';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {useToast} from '@/hooks/use-toast';
 import {useRouter} from 'next/navigation';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
+import {Switch} from '@/components/ui/switch';
 
 const formSchema = z.object({
   topic: z.string().min(2, {
@@ -35,11 +35,10 @@ const formSchema = z.object({
   difficulty: z.enum(['easy', 'medium', 'hard'], {
     required_error: 'Please select a difficulty.',
   }),
-  userInput: z.string().optional(),
 });
 
 export function DebateSetupForm() {
-  const [isJudgeMode, setIsJudgeMode] = useState(false); // Tracks if Judge Mode is toggled
+  const [isJudgeMode, setIsJudgeMode] = useState(false);
   const router = useRouter();
   const {toast} = useToast();
 
@@ -58,7 +57,7 @@ export function DebateSetupForm() {
       title: 'Debate setup',
       description: 'Debate is being setup with the provided inputs',
     });
-    // add logic to navigate to debate page
+
     router.push(
       `/debate?topic=${values.topic}&stance=${values.stance}&expertiseLevel=${values.expertiseLevel}&difficulty=${values.difficulty}&isJudgeMode=${isJudgeMode}`
     );
@@ -155,6 +154,14 @@ export function DebateSetupForm() {
                 </FormItem>
               )}
             />
+             <div className="flex items-center space-x-2">
+              <Label htmlFor="judge-mode">AI Judge Mode</Label>
+              <Switch
+                id="judge-mode"
+                checked={isJudgeMode}
+                onCheckedChange={setIsJudgeMode}
+              />
+            </div>
 
             <Button type="submit">Start Debate</Button>
           </form>

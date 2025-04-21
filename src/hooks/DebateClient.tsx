@@ -28,9 +28,10 @@ export default function DebateClient() {
   const stance = searchParams.get('stance') || 'for';
   const expertiseLevel = searchParams.get('expertiseLevel') || 'Beginner';
   const difficulty = searchParams.get('difficulty') || 'Easy';
-  const isJudgeModeParam = searchParams.get('isJudgeMode') === 'true';
+    const isJudgeModeParam = searchParams.get('isJudgeMode') === 'true';
 
   const [isJudgeMode, setIsJudgeMode] = useState(isJudgeModeParam);
+
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [userInput, setUserInput] = useState('');
   const chatDisplayRef = useRef<HTMLDivElement>(null);
@@ -53,7 +54,7 @@ export default function DebateClient() {
     try {
       let aiResponseText: string;
 
-      if (isJudgeMode) {
+         if (isJudgeMode) {
         const res = await aiJudgeMode({
           topic,
           stance,
@@ -93,7 +94,7 @@ export default function DebateClient() {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col h-full">
-          <div className="flex items-center justify-between mb-4">
+           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <Label htmlFor="judge-mode">AI Judge Mode</Label>
               <Switch
