@@ -13,7 +13,6 @@ import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
 import {Switch} from '@/components/ui/switch';
 import {Label} from '@/components/ui/label';
-import {performanceReview} from '@/ai/flows/performance-review';
 import {aiJudgeMode} from '@/ai/flows/ai-judge-mode';
 import {generateDebateResponse} from '@/ai/flows/generate-debate-response';
 import {useToast} from '@/hooks/use-toast';
@@ -89,36 +88,8 @@ export default function DebatePage() {
     }
   };
 
-  const handleReview = async () => {
-    try {
-      const debateResponses = chatMessages
-        .filter(message => message.isUser)
-        .map(message => message.text);
-
-      const review = await performanceReview({
-        debateTopic: topic,
-        userStance: stance,
-        expertiseLevel: expertiseLevel,
-        debateDifficulty: difficulty,
-        debateResponses: debateResponses,
-      });
-
-      toast({
-        title: 'Performance Review',
-        description: `Rating: ${review.rating}\nFeedback: ${review.feedback}`,
-      });
-    } catch (error: any) {
-      console.error('Error generating performance review:', error);
-      toast({
-        title: 'Error',
-        description: `Failed to generate performance review: ${error.message}`,
-        variant: 'destructive',
-      });
-    }
-  };
-
   return (
-    <div className="flex flex-col h-screen bg-cover bg-center" style={{backgroundImage: `url('https://picsum.photos/1920/1080')`}}>
+    <div className="flex flex-col h-screen">
       <Card className="m-4 flex-grow">
         <CardHeader>
           <CardTitle>Debate: {topic}</CardTitle>
@@ -136,7 +107,6 @@ export default function DebatePage() {
                 onCheckedChange={setIsJudgeMode}
               />
             </div>
-            <Button onClick={handleReview}>Get Performance Review</Button>
           </div>
           <div
             ref={chatDisplayRef}
