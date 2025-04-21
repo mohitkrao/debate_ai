@@ -28,9 +28,7 @@ export default function DebateClient() {
   const stance = searchParams.get('stance') || 'for';
   const expertiseLevel = searchParams.get('expertiseLevel') || 'Beginner';
   const difficulty = searchParams.get('difficulty') || 'Easy';
-    const isJudgeModeParam = searchParams.get('isJudgeMode') === 'true';
-
-  const [isJudgeMode, setIsJudgeMode] = useState(isJudgeModeParam);
+  const isJudgeMode = searchParams.get('isJudgeMode') === 'true';
 
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [userInput, setUserInput] = useState('');
@@ -54,7 +52,7 @@ export default function DebateClient() {
     try {
       let aiResponseText: string;
 
-         if (isJudgeMode) {
+      if (isJudgeMode) {
         const res = await aiJudgeMode({
           topic,
           stance,
@@ -75,10 +73,14 @@ export default function DebateClient() {
       }
 
       setChatMessages(prev => [...prev, {text: aiResponseText, isUser: false}]);
-    } catch (err: any) {
+    } catch (err) {
+      let message = 'Failed to generate AI response.';
+      if (err instanceof Error) {
+        message += ` ${err.message}`;
+      }
       toast({
         title: 'Error',
-        description: `Failed to generate AI response: ${err.message}`,
+        description: message,
         variant: 'destructive',
       });
     }
@@ -100,7 +102,7 @@ export default function DebateClient() {
               <Switch
                 id="judge-mode"
                 checked={isJudgeMode}
-                onCheckedChange={setIsJudgeMode}
+                disabled
               />
             </div>
           </div>
