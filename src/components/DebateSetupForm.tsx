@@ -1,6 +1,6 @@
 'use client';
 
-import {useState} from 'react';
+import {useRouter} from 'next/navigation';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {z} from 'zod';
@@ -8,20 +8,16 @@ import {z} from 'zod';
 import {
   Form,
   FormControl,
-  FormDescription,
-  FormField,
   FormItem,
   FormLabel,
   FormMessage,
+  FormField, // Import FormField
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {useToast} from '@/hooks/use-toast';
-import {useRouter} from 'next/navigation';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
-import {Switch} from '@/components/ui/switch';
-import {Label} from '@/components/ui/label';
 
 const formSchema = z.object({
   topic: z.string().min(2, {
@@ -39,7 +35,6 @@ const formSchema = z.object({
 });
 
 export function DebateSetupForm() {
-  const [isJudgeMode, setIsJudgeMode] = useState(false);
   const router = useRouter();
   const {toast} = useToast();
 
@@ -60,7 +55,7 @@ export function DebateSetupForm() {
     });
 
     router.push(
-      `/debate?topic=${values.topic}&stance=${values.stance}&expertiseLevel=${values.expertiseLevel}&difficulty=${values.difficulty}&isJudgeMode=${isJudgeMode}`
+      `/debate?topic=${values.topic}&stance=${values.stance}&expertiseLevel=${values.expertiseLevel}&difficulty=${values.difficulty}&isJudgeMode=false`
     );
   }
 
@@ -155,14 +150,6 @@ export function DebateSetupForm() {
                 </FormItem>
               )}
             />
-             <div className="flex items-center space-x-2">
-              <Label htmlFor="judge-mode">AI Judge Mode</Label>
-              <Switch
-                id="judge-mode"
-                checked={isJudgeMode}
-                onCheckedChange={setIsJudgeMode}
-              />
-            </div>
 
             <Button type="submit">Start Debate</Button>
           </form>
@@ -171,3 +158,4 @@ export function DebateSetupForm() {
     </Card>
   );
 }
+
